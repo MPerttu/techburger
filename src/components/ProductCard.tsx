@@ -2,18 +2,33 @@ import type { Product } from '../types';
 
 interface Props {
   product: Product;
+  // Lisätään uusi prop vaatimusten mukaisesti
+  onSelect: (product: Product) => void;
 }
 
-const ProductCard = ({ product }: Props) => {
+const ProductCard = ({ product, onSelect }: Props) => {
   return (
-    <div style={{ border: '1px solid #ccc', padding: '1rem', borderRadius: '8px' }}>
+    <div 
+      // Lisätään onClick koko kortin ympärille
+      onClick={() => onSelect(product)}
+      style={{ 
+        border: '1px solid #ccc', 
+        padding: '1rem', 
+        borderRadius: '8px',
+        cursor: 'pointer' // Lisätään sormi-kursori, jotta käyttäjä tietää tätä voivan klikata
+      }}
+    >
       <img src={product.image} alt={product.name} width="100%" />
       <h3>{product.name}</h3>
       <p>{product.description}</p>
-      <p className="font-bold text-lg"
-      ><strong>{product.price}€</strong></p>
+      <p className="font-bold text-lg">
+        <strong>{product.price}€</strong>
+      </p>
       <button 
-      className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-2 px-4 border border-gray-300 rounded">
+        className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-2 px-4 border border-gray-300 rounded"
+        // Estetään klikkausta "kuplimasta" korttiin, jos haluat että nappi tekee myöhemmin eri asian
+        onClick={(e) => e.stopPropagation()} 
+      >
         Lisää ostoskoriin
       </button>
     </div>
