@@ -11,7 +11,7 @@ export function ProductList() {
 
   // --- LOGIIKKA (Sinun dynaaminen haku + kaverin virhekäsittely) ---
   useEffect(() => {
-    fetch("/data/menu.json")
+    fetch("https://techburger-api.onrender.com/api/products")
       .then((response) => {
         if (!response.ok)
           throw new Error("Menun haku epäonnistui - tarkista yhteys");
