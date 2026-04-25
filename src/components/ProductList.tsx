@@ -6,32 +6,32 @@ export function ProductList() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Käynnistetään haku
     fetch("/data/menu.json")
-      .then((response) => response.json()) // Muutetaan vastaus JSON-muotoon
+      .then((response) => {
+        if (!response.ok) throw new Error("Haku epäonnistui");
+        return response.json();
+      })
       .then((data) => {
-        // Tallennetaan data products-muuttujaan
         setProducts(data);
-        // Sanotaan, että lataus on valmis
         setLoading(false);
       })
       .catch((error) => {
-        console.error("Datan haku epäonnistui:", error);
+        console.error("Virhe:", error);
         setLoading(false);
       });
-  }, []); // Tyhjä taulukko [] varmistaa, että haku tehdään vain kerran
+  }, []);
 
   if (loading) {
     return (
       <div className="flex flex-col justify-center items-center min-h-100">
-        {/* Tämä on simppeli latausanimaatio (spinneri) */}
         <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-orange-500 mb-4"></div>
-        <p className="text-xl font-semibold text-slate-600 animate-pulse">
-          Haetaan TechBurger-menuun päivityksiä... 🍔
+        <p className="text-xl font-semibold text-slate-600">
+          Haetaan menuun päivityksiä... 🍔
         </p>
       </div>
     );
   }
+
   return (
     <section className="max-w-6xl mx-auto p-6">
       <h2 className="text-2xl font-bold mb-8 text-slate-800 border-b-2 border-orange-500 inline-block">
