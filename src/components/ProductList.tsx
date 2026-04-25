@@ -1,66 +1,79 @@
 import { useState, useEffect } from "react";
 import type { Product } from "../types";
+import ProductCard from "./ProductCard"; // Kaverin lisäämä uusi komponentti
 
 export function ProductList() {
+  // --- TILAT (Kaverin versio + sinun fetch-data) ---
   const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
+  // --- LOGIIKKA (Sinun dynaaminen haku + kaverin virhekäsittely) ---
   useEffect(() => {
     fetch("/data/menu.json")
       .then((response) => {
-        if (!response.ok) throw new Error("Haku epäonnistui");
+        if (!response.ok)
+          throw new Error("Menun haku epäonnistui - tarkista yhteys");
         return response.json();
       })
       .then((data) => {
         setProducts(data);
-        setLoading(false);
+        setIsLoading(false);
       })
-      .catch((error) => {
-        console.error("Virhe:", error);
-        setLoading(false);
+      .catch((err) => {
+        setError(err instanceof Error ? err.message : "Jotain meni pieleen");
+        setIsLoading(false);
       });
   }, []);
 
-  if (loading) {
+  // --- NÄKYMÄ: VIRHE (Kaverin tyylittely) ---
+  if (error) {
     return (
-      <div className="flex flex-col justify-center items-center min-h-100">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-orange-500 mb-4"></div>
-        <p className="text-xl font-semibold text-slate-600">
-          Haetaan menuun päivityksiä... 🍔
-        </p>
+      <div className="max-w-6xl mx-auto p-6">
+        <div className="bg-red-50 text-red-600 p-8 rounded-2xl border border-red-100 text-center shadow-sm">
+          <h2 className="text-xl font-bold mb-2 text-red-700">
+            Ups! Virhe havaittu
+          </h2>
+          <p className="font-medium">{error}</p>
+        </div>
       </div>
     );
   }
 
+  // --- NÄKYMÄ: LATAUS (Kaverin hieno "Grilli kuumenee" animaatio) ---
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-125 gap-6">
+        <div className="w-16 h-16 border-4 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
+        <h2 className="text-3xl font-bold text-slate-700 animate-pulse uppercase tracking-widest">
+          Grilli kuumenee...
+        </h2>
+      </div>
+    );
+  }
+
+  // --- NÄKYMÄ: PÄÄSIVU (Yhdistetty rakenne) ---
   return (
     <section className="max-w-6xl mx-auto p-6">
-      <h2 className="text-2xl font-bold mb-8 text-slate-800 border-b-2 border-orange-500 inline-block">
-        Our Menu
-      </h2>
+      <header className="flex justify-between items-center mb-8 border-b-2 border-orange-500 pb-4">
+        <h2 className="text-2xl font-bold text-slate-800">Our Menu</h2>
+        {selectedProduct && (
+          <div className="bg-orange-100 text-orange-800 px-4 py-2 rounded-lg font-medium animate-bounce">
+            Selected: {selectedProduct.name}
+          </div>
+        )}
+      </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {products.map((product) => (
-          <div
+          /* Käytetään kaverin tuomaa ProductCard-komponenttia, jos hän on sen jo luonut! */
+          /* Jos ProductCard ei vielä toimi, voimme palata vanhaan div-rakenteeseen */
+          <ProductCard
             key={product.id}
-            className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
-          >
-            <div className="flex justify-between items-start mb-4">
-              <h3 className="text-xl font-bold text-slate-800">
-                {product.name}
-              </h3>
-              <span className="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-sm font-bold">
-                {product.price.toFixed(2)}€
-              </span>
-            </div>
-
-            <p className="text-slate-500 text-sm leading-relaxed mb-6">
-              {product.description}
-            </p>
-
-            <button className="w-full bg-orange-500 text-white py-3 rounded-xl font-bold hover:bg-orange-600 active:scale-95 transition-all shadow-lg shadow-orange-200">
-              Add to Order
-            </button>
-          </div>
+            product={product}
+            onClick={() => setSelectedProduct(product)}
+          />
         ))}
       </div>
     </section>
