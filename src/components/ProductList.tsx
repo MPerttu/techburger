@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { Product } from '../types'; 
 import ProductCard from './ProductCard';
 
-const products: Product[] = [
+const productsData: Product[] = [
   { 
     id: 1, 
     name: "Classic Tech", 
@@ -52,6 +52,46 @@ const products: Product[] = [
 
 export function ProductList() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      try {
+    
+        setProducts(productsData);
+        setIsLoading(false);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Jotain meni pieleen");
+        setIsLoading(false);
+      }
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (error) {
+    return (
+      <div className="max-w-6xl mx-auto p-6">
+        <div className="bg-red-50 text-red-600 p-8 rounded-2xl border border-red-100 text-center shadow-sm">
+          <h2 className="text-xl font-bold mb-2 text-red-700">Ups! Virhe havaittu</h2>
+          <p className="font-medium">{error}</p>
+        </div>
+      </div>
+    );
+  }
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[500px] gap-6">
+        <div className="w-16 h-16 border-4 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
+        <h2 className="text-3xl font-bold text-slate-700 animate-pulse uppercase tracking-widest">
+          Grilli kuumenee...
+        </h2>
+      </div>
+    );
+  }
+
 
   return (
     <section className="max-w-6xl mx-auto p-6">
@@ -60,11 +100,12 @@ export function ProductList() {
           Our Menu
         </h2>
         {selectedProduct && (
-          <div className="bg-orange-100 text-orange-800 px-4 py-2 rounded-lg font-medium animate-pulse">
+          <div className="bg-orange-100 text-orange-800 px-4 py-2 rounded-lg font-medium animate-bounce">
             Selected: {selectedProduct.name}
           </div>
         )}
       </header>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {products.map((product) => (
           <ProductCard 
@@ -73,7 +114,6 @@ export function ProductList() {
             onSelect={setSelectedProduct} 
           />
         ))}
-        
       </div>
     </section>
   );
