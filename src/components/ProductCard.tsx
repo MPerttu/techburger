@@ -15,7 +15,7 @@ const ProductCard = ({ product, onSelect }: Props) => {
         border: '1px solid #ccc', 
         padding: '1rem', 
         borderRadius: '8px',
-        cursor: 'pointer' // Lisätään sormi-kursori, jotta käyttäjä tietää tätä voivan klikata
+        cursor: 'pointer'
       }}
     >
       <img src={product.image} alt={product.name} width="100%" />
@@ -26,7 +26,6 @@ const ProductCard = ({ product, onSelect }: Props) => {
       </p>
       <button 
         className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-2 px-4 border border-gray-300 rounded"
-        // Estetään klikkausta "kuplimasta" korttiin, jos haluat että nappi tekee myöhemmin eri asian
         onClick={(e) => e.stopPropagation()} 
       >
         Lisää ostoskoriin
