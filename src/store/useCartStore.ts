@@ -9,17 +9,7 @@ interface CartState {
 }
 
 export const useCartStore = create<CartState>((set) => ({
-  cartItems: [
-    {
-      id: 999,
-      name: "Testi Burger",
-      price: 10,
-      image: "",
-      category: "Burger",
-      description: "Testikuvaus", // Lisätty
-      isVegan: false, // Lisätty
-    },
-  ],
+  cartItems: [],
 
   addToCart: (product: Product) =>
     set((state) => ({ cartItems: [...state.cartItems, product] })),
