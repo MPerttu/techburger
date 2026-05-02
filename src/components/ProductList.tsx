@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import type { Product } from "../types";
-import ProductCard from "./ProductCard"; // Kaverin lisäämä uusi komponentti
+import ProductCard from "./ProductCard";
+import { Modal } from "./Modal";
 
 export function ProductList() {
   // --- TILAT (Kaverin versio + sinun fetch-data) ---
@@ -67,8 +68,6 @@ export function ProductList() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {products.map((product) => (
-          /* Käytetään kaverin tuomaa ProductCard-komponenttia, jos hän on sen jo luonut! */
-          /* Jos ProductCard ei vielä toimi, voimme palata vanhaan div-rakenteeseen */
           <ProductCard
             key={product.id}
             product={product}
@@ -76,6 +75,34 @@ export function ProductList() {
           />
         ))}
       </div>
+
+      {selectedProduct && (
+        <Modal onClose={() => setSelectedProduct(null)}>
+          <img
+            src={selectedProduct.image}
+            alt={selectedProduct.name}
+            className="h-64 w-full object-cover rounded-t-2xl"
+          />
+
+          <div className="p-6">
+            <div className="flex items-center justify-between gap-4">
+              <h2 className="text-3xl font-bold text-slate-800">
+                {selectedProduct.name}
+              </h2>
+
+              <p className="text-2xl font-bold text-orange-500">
+                {selectedProduct.price} €
+              </p>
+            </div>
+
+            <p className="mt-4 text-slate-600">{selectedProduct.description}</p>
+
+            <button className="mt-6 w-full rounded-xl bg-orange-500 px-6 py-4 text-lg font-bold text-white hover:bg-orange-600 transition-colors">
+              Add to Cart
+            </button>
+          </div>
+        </Modal>
+      )}
     </section>
   );
 }
