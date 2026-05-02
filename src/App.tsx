@@ -7,13 +7,13 @@ function App() {
     <div className="min-h-screen bg-slate-50">
       <Header />
 
-      <main className="p-8">
-        {/* Tänne tulee myöhemmin tuotelistaus */}
-        <h2 className="text-xl text-slate-700">Welcome to TechBurger!</h2>
+      <main className="px-8 py-6">
         <ProductList />
       </main>
+
       <Footer />
     </div>
   );
 }
+
 export default App;
