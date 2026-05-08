@@ -11,10 +11,10 @@ export function Modal({ onClose, children }: ModalProps) {
       <div className="bg-white rounded-2xl max-w-lg w-full relative overflow-hidden">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-slate-500 hover:text-slate-900 text-xl font-bold"
+          className="absolute top-2 right-2 text-slate-500 hover:text-slate-900 text-3xl font-bold z-50 leading-none"
           aria-label="Close modal"
         >
-          ×
+          &times;
         </button>
 
         <div className="p-6">{children}</div>

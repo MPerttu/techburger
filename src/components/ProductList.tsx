@@ -4,13 +4,14 @@ import ProductCard from "./ProductCard";
 import { Modal } from "./Modal";
 
 export function ProductList() {
-  // --- TILAT (Kaverin versio + sinun fetch-data) ---
+  // --- TILAT ---
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [activeCategory, setActiveCategory] = useState<string>("all");
 
-  // --- LOGIIKKA (Sinun dynaaminen haku + kaverin virhekäsittely) ---
+  // --- LOGIIKKA: Datan haku ---
   useEffect(() => {
     fetch("https://techburger-api.onrender.com/api/products")
       .then((response) => {
@@ -28,7 +29,16 @@ export function ProductList() {
       });
   }, []);
 
-  // --- NÄKYMÄ: VIRHE (Kaverin tyylittely) ---
+  // --- SUODATUSLOGIIKKA ---
+  // Lasketaan näytettävät tuotteet valitun kategorian perusteella
+  const filteredProducts =
+    activeCategory === "all"
+      ? products
+      : products.filter(
+          (p) => p.category.toLowerCase() === activeCategory.toLowerCase(),
+        );
+
+  // --- NÄKYMÄ: VIRHE ---
   if (error) {
     return (
       <div className="max-w-6xl mx-auto p-6">
@@ -42,7 +52,7 @@ export function ProductList() {
     );
   }
 
-  // --- NÄKYMÄ: LATAUS (Kaverin hieno "Grilli kuumenee" animaatio) ---
+  // --- NÄKYMÄ: LATAUS ---
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-125 gap-6">
@@ -54,7 +64,7 @@ export function ProductList() {
     );
   }
 
-  // --- NÄKYMÄ: PÄÄSIVU (Yhdistetty rakenne) ---
+  // --- NÄKYMÄ: PÄÄSIVU ---
   return (
     <section className="max-w-6xl mx-auto p-6">
       <header className="flex justify-between items-center mb-8 border-b-2 border-orange-500 pb-4">
@@ -66,8 +76,26 @@ export function ProductList() {
         )}
       </header>
 
+      {/* Kategoriapainikkeiden rivi */}
+      <div className="flex gap-4 mb-8 overflow-x-auto pb-2">
+        {["all", "burgers", "sides", "drinks"].map((category) => (
+          <button
+            key={category}
+            onClick={() => setActiveCategory(category)}
+            className={`px-6 py-2 rounded-full font-bold whitespace-nowrap transition-all ${
+              activeCategory === category
+                ? "bg-orange-500 text-white shadow-md" // Aktiivinen tyyli
+                : "bg-white text-gray-500 border border-gray-200 hover:bg-gray-50" // Epäaktiivinen tyyli
+            }`}
+          >
+            {category.charAt(0).toUpperCase() + category.slice(1)}
+          </button>
+        ))}
+      </div>
+
+      {/* Tuoteruudukko - käyttää nyt filteredProducts-muuttujaa */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {products.map((product) => (
+        {filteredProducts.map((product) => (
           <ProductCard
             key={product.id}
             product={product}
@@ -76,6 +104,7 @@ export function ProductList() {
         ))}
       </div>
 
+      {/* Tuote-Modal */}
       {selectedProduct && (
         <Modal onClose={() => setSelectedProduct(null)}>
           <img
@@ -91,7 +120,7 @@ export function ProductList() {
               </h2>
 
               <p className="text-2xl font-bold text-orange-500">
-                {selectedProduct.price} €
+                {selectedProduct.price.toFixed(2)} €
               </p>
             </div>
 
