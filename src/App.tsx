@@ -1,23 +1,22 @@
 import { Routes, Route } from "react-router-dom";
-import { Footer } from "./components/Footer";
 import Header from "./components/Header";
-import { ProductList } from "./components/ProductList";
+import { Footer } from "./components/Footer";
+import { HomeView } from "./views/HomeView";
 import CartView from "./views/CartView"; 
 
 function App() {
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50 flex flex-col">
       <Header />
 
-      <main className="px-8 py-6">
+      {/* Huom: main-tagi on jo HomeView- ja CartView-komponenteissa, 
+          joten tässä se toimii vain reittien säiliönä */}
+      <div className="flex-grow">
         <Routes>
-          {/* Etusivun reitti */}
-          <Route path="/" element={<ProductList />} />
-          
-          {/* 2. Lisätään uusi reitti ostoskorille */}
+          <Route path="/" element={<HomeView />} />
           <Route path="/cart" element={<CartView />} />
         </Routes>
-      </main>
+      </div>
 
       <Footer />
     </div>
