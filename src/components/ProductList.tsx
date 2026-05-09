@@ -4,6 +4,21 @@ import ProductCard from "./ProductCard";
 import { Modal } from "./Modal";
 import { useCartStore } from "../store/useCartStore";
 
+function getCategoryLabel(category: string) {
+  switch (category.toLowerCase()) {
+    case "all":
+      return "Kaikki";
+    case "burgers":
+      return "Burgerit";
+    case "sides":
+      return "Lisukkeet";
+    case "drinks":
+      return "Juomat";
+    default:
+      return category;
+  }
+}
+
 export function ProductList() {
   // --- TILAT ---
   const [products, setProducts] = useState<Product[]>([]);
@@ -70,7 +85,7 @@ export function ProductList() {
   return (
     <section className="max-w-6xl mx-auto p-6">
       <header className="flex justify-between items-center mb-8 border-b-2 border-orange-500 pb-4">
-        <h2 className="text-2xl font-bold text-slate-800">Our Menu</h2>
+        <h2 className="text-2xl font-bold text-slate-800">Valikoimamme</h2>
         {selectedProduct && (
           <div className="bg-orange-100 text-orange-800 px-4 py-2 rounded-lg font-medium animate-bounce">
             Selected: {selectedProduct.name}
@@ -90,7 +105,7 @@ export function ProductList() {
                 : "bg-white text-gray-500 border border-gray-200 hover:bg-gray-50" // Epäaktiivinen tyyli
             }`}
           >
-            {category.charAt(0).toUpperCase() + category.slice(1)}
+            {getCategoryLabel(category)}
           </button>
         ))}
       </div>
@@ -138,7 +153,7 @@ export function ProductList() {
               }}
               className="mt-6 w-full rounded-xl bg-orange-500 px-6 py-4 text-lg font-bold text-white hover:bg-orange-600 transition-colors"
             >
-              Add to Cart
+              Lisää ostoskoriin
             </button>
           </div>
         </Modal>
