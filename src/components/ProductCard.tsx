@@ -1,5 +1,18 @@
 import type { Product } from "../types";
 
+function getCategoryLabel(category: string) {
+  switch (category.toLowerCase()) {
+    case "burgers":
+      return "Burgerit";
+    case "sides":
+      return "Lisukkeet";
+    case "drinks":
+      return "Juomat";
+    default:
+      return category;
+  }
+}
+
 interface Props {
   product: Product;
   onClick: () => void; // Lisätty tämä rivi tyyppimäärittelyyn
@@ -36,11 +49,11 @@ export default function ProductCard({ product, onClick }: Props) {
       <div className="flex gap-2 items-center">
         {product.isVegan && (
           <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-md font-medium">
-            Vegan
+            Vegaaninen
           </span>
         )}
         <span className="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded-md font-medium">
-          {product.category}
+          {getCategoryLabel(product.category)}
         </span>
       </div>
 
@@ -51,7 +64,7 @@ export default function ProductCard({ product, onClick }: Props) {
           onClick();
         }}
       >
-        Add to Order
+        Näytä tiedot
       </button>
     </div>
   );

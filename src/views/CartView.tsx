@@ -5,16 +5,20 @@ const CartView = () => {
   // Haetaan cartItems storesta
   const cartItems = useCartStore((state) => state.cartItems);
 
+  const totalPrice = cartItems.reduce((sum, item) => {
+    return sum + item.price;
+  }, 0);
+
   return (
     <div className="p-8 max-w-4xl mx-auto">
       <h1 className="text-3xl font-bold mb-6">Ostoskori</h1>
 
       {cartItems.length === 0 ? (
         <div className="bg-gray-100 p-10 rounded-lg text-center">
-          <p className="text-xl text-gray-600 mb-4">Your cart is empty</p>
+          <p className="text-xl text-gray-600 mb-4">Ostoskorisi on tyhjä</p>
           {/* Back to Menu -linkki */}
           <Link to="/" className="text-blue-600 hover:underline font-medium">
-            ← Back to Menu
+            ← Takaisin valikkoon
           </Link>
         </div>
       ) : (
@@ -43,6 +47,19 @@ const CartView = () => {
           <Link to="/" className="text-blue-600 hover:underline block p-4">
             ← Jatka ostoksia
           </Link>
+
+          <div className="mt-8 p-6 bg-gray-50 rounded-2xl">
+            <div className="flex items-center justify-between mb-6">
+              <p className="text-xl font-bold text-slate-800">Yhteensä:</p>
+              <p className="text-2xl font-bold text-orange-500">
+                {totalPrice.toFixed(2)} €
+              </p>
+            </div>
+
+            <button className="w-full bg-orange-500 text-white py-4 rounded-xl font-bold hover:bg-orange-600 transition-colors">
+              Siirry kassalle
+            </button>
+          </div>
         </div>
       )}
     </div>
