@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import type { Product } from "../types";
 import ProductCard from "./ProductCard";
 import { Modal } from "./Modal";
+import { useCartStore } from "../store/useCartStore";
 
 export function ProductList() {
   // --- TILAT ---
@@ -10,6 +11,7 @@ export function ProductList() {
   const [error, setError] = useState<string | null>(null);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>("all");
+  const addToCart = useCartStore((state) => state.addToCart);
 
   // --- LOGIIKKA: Datan haku ---
   useEffect(() => {
@@ -126,7 +128,16 @@ export function ProductList() {
 
             <p className="mt-4 text-slate-600">{selectedProduct.description}</p>
 
-            <button className="mt-6 w-full rounded-xl bg-orange-500 px-6 py-4 text-lg font-bold text-white hover:bg-orange-600 transition-colors">
+            <button
+              type="button"
+              onClick={() => {
+                if (selectedProduct) {
+                  addToCart(selectedProduct);
+                  setSelectedProduct(null);
+                }
+              }}
+              className="mt-6 w-full rounded-xl bg-orange-500 px-6 py-4 text-lg font-bold text-white hover:bg-orange-600 transition-colors"
+            >
               Add to Cart
             </button>
           </div>
