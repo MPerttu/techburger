@@ -1,18 +1,16 @@
-import { Routes, Route } from "react-router-dom";
-import { Footer } from "./components/Footer";
 import Header from "./components/Header";
-import { ProductList } from "./components/ProductList";
+import { Routes, Route } from "react-router-dom";
+import { HomeView } from "./views/HomeView";
+import { Footer } from "./components/Footer";
 
 function App() {
   return (
     <div className="min-h-screen bg-slate-50">
       <Header />
 
-      <main className="px-8 py-6">
-        <Routes>
-          <Route path="/" element={<ProductList />} />
-        </Routes>
-      </main>
+      <Routes>
+        <Route path="/" element={<HomeView />} />
+      </Routes>
 
       <Footer />
     </div>
