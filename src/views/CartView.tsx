@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
-import { useCartStore } from '../store/useCartStore';
+import { Link } from "react-router-dom";
+import { useCartStore } from "../store/useCartStore";
 
 const CartView = () => {
   // Haetaan cartItems storesta
@@ -13,18 +13,34 @@ const CartView = () => {
         <div className="bg-gray-100 p-10 rounded-lg text-center">
           <p className="text-xl text-gray-600 mb-4">Your cart is empty</p>
           {/* Back to Menu -linkki */}
-          <Link 
-            to="/" 
-            className="text-blue-600 hover:underline font-medium"
-          >
+          <Link to="/" className="text-blue-600 hover:underline font-medium">
             ← Back to Menu
           </Link>
         </div>
       ) : (
-        <div>
-          {/* Tähän tulee myöhemmin korin tuotteet */}
-          <p>Sinulla on {cartItems.length} tuotetta korissa.</p>
-          <Link to="/" className="text-blue-600 hover:underline block mt-4">
+        <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+          {cartItems.map((item, index) => (
+            <div
+              key={`${item.id}-${index}`}
+              className="flex items-center gap-4 p-4 border-b border-gray-100"
+            >
+              <img
+                src={item.image}
+                alt={item.name}
+                className="w-16 h-16 object-cover rounded-lg"
+              />
+
+              <div className="flex-grow">
+                <h2 className="font-bold text-slate-800">{item.name}</h2>
+              </div>
+
+              <p className="font-bold text-orange-500">
+                {item.price.toFixed(2)} €
+              </p>
+            </div>
+          ))}
+
+          <Link to="/" className="text-blue-600 hover:underline block p-4">
             ← Jatka ostoksia
           </Link>
         </div>
