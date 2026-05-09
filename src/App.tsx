@@ -1,3 +1,4 @@
+import { Routes, Route } from "react-router-dom";
 import { Footer } from "./components/Footer";
 import Header from "./components/Header";
 import { ProductList } from "./components/ProductList";
@@ -8,7 +9,9 @@ function App() {
       <Header />
 
       <main className="px-8 py-6">
-        <ProductList />
+        <Routes>
+          <Route path="/" element={<ProductList />} />
+        </Routes>
       </main>
 
       <Footer />
