@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import { Footer } from "./components/Footer";
 import { HomeView } from "./views/HomeView";
-import CartView from "./views/CartView"; 
+import CartView from "./views/CartView";
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
 
       {/* Huom: main-tagi on jo HomeView- ja CartView-komponenteissa, 
           joten tässä se toimii vain reittien säiliönä */}
-      <div className="flex-grow">
+      <div className="grow">
         <Routes>
           <Route path="/" element={<HomeView />} />
           <Route path="/cart" element={<CartView />} />

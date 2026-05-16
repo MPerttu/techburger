@@ -4,7 +4,7 @@ import { useCartStore } from "../store/useCartStore";
 const CartView = () => {
   // Haetaan cartItems storesta
   const cartItems = useCartStore((state) => state.cartItems);
-
+  const removeFromCart = useCartStore((state) => state.removeFromCart);
   const totalPrice = cartItems.reduce((sum, item) => {
     return sum + item.price;
   }, 0);
@@ -41,6 +41,13 @@ const CartView = () => {
               <p className="font-bold text-orange-500">
                 {item.price.toFixed(2)} €
               </p>
+              <button
+                onClick={() => removeFromCart(item.id)}
+                className="text-gray-400 hover:text-red-500 p-2 rounded-lg hover:bg-red-50 transition-colors"
+                title="Poista tuote"
+              >
+                🗑️
+              </button>
             </div>
           ))}
 
