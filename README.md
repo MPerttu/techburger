@@ -1,46 +1,62 @@
-🍔 TechBurger - Starter Template
+# TechBurger Ordering App
 
-This is the official starter template for the Online Environment Tools (TT00BI69) course project. It is designed to get you up and running with a modern React development environment in seconds.
+TechBurger Ordering App on moderni hampurilaisten tilaussovellus, joka on rakennettu Reactilla ja TypeScriptillä. Sovelluksen tarkoituksena on tarjota käyttäjälle selkeä ja helppokäyttöinen tapa selata tuotteita, tarkastella tuotteiden lisätietoja, lisätä tuotteita ostoskoriin ja siirtyä kohti tilausta.
 
-🛠️ Tech Stack Included
+Sovellus on toteutettu osana web-kehityksen opintoja. Projektissa harjoitellaan modernin frontend-sovelluksen rakentamista komponenttipohjaisesti sekä tiimityöskentelyä GitHubin avulla.
 
-- React 19 (via Vite)
-- TypeScript (for type-safe development)
-- Tailwind CSS 4 (for rapid UI styling)
+## Live-versio
 
+Sovelluksen julkaistu versio löytyy täältä:
 
-🚀 Getting Started
+[TechBurger Live App](https://techburger-beige.vercel.app/)
 
-To start working on your team's project, follow these steps:
+## Käytetyt teknologiat
 
-1. Use this Template: Click the green "Use this template" button at the top of this page and select "Create a new repository".
+Projektissa on käytetty seuraavia teknologioita:
 
-2. Invite Teammates: Go to your new repository's Settings > Collaborators and invite your team members and the teacher.
+- React
+- TypeScript
+- Tailwind CSS
+- Zustand
+- React Router
+- Vite
 
-3. Clone to Local: Open your terminal and clone your team's new repository:
+## Sovelluksen kuvaus
 
-    git clone <your-repo-url>
+TechBurger on yksinkertainen mutta toimiva tilaussovellus, jossa käyttäjä voi selata hampurilaisia ja muita tuotteita. Tuotteet näytetään selkeinä kortteina, ja käyttäjä voi avata tuotteen tarkemmat tiedot modaalinäkymässä.
 
-4. Install Dependencies:
+Käyttäjä voi lisätä tuotteita ostoskoriin. Ostoskorissa näkyvät lisätyt tuotteet, niiden hinnat sekä kokonaissumma. Käyttäjä voi myös poistaa tuotteita ostoskorista ja jatkaa ostoksia takaisin tuotelistaan. Sovelluksessa on lisäksi kassalle siirtymisen painike, joka toimii käyttöliittymän seuraavana toimintakehotuksena.
 
-    cd <project-folder>
-    npm install
+## Ominaisuudet
 
-5. Run Development Server:
+Sovelluksessa käyttäjä voi:
 
-    npm run dev
+- selata tuotteita etusivulla
+- avata tuotteen lisätiedot modaalissa
+- lisätä tuotteen ostoskoriin
+- tarkastella ostoskorin sisältöä
+- poistaa tuotteita ostoskorista
+- nähdä ostoskorin kokonaishinnan
+- siirtyä kassalle -painikkeen avulla seuraavaan vaiheeseen
+- liikkua eri näkymien välillä React Routerin avulla
 
-📂 Project Structure
+## Projektin rakenne
 
-- src/components/: Place all your React components here.
-- src/types.ts: Define your TypeScript interfaces here (e.g., Product).
-- src/App.tsx: The main entry point of your application.
-- public/: Place static assets like images or JSON data here.
+Projektin lähdekoodi sijaitsee `src`-kansiossa.
 
-📝 Course Rules
-
-- Git Flow: Always use feature branches (feature/component-name).
-- No "any": Use TypeScript interfaces for all data.
-- Atomic Commits: Commit small, logical changes with descriptive messages.
-
-Happy coding! Let's build the best burger app ever. 💻🔥
+src/
+├── components/ # Uudelleenkäytettävät käyttöliittymäkomponentit
+│ ├── Footer.tsx
+│ ├── Header.tsx
+│ ├── Modal.tsx
+│ ├── ProductCard.tsx
+│ └── ProductList.tsx
+├── store/ # Zustand-tilanhallinta
+│ └── useCartStore.ts
+├── views/ # Sovelluksen päänäkymät
+│ ├── CartView.tsx
+│ └── HomeView.tsx
+├── App.tsx # Sovelluksen reititys ja pääkomponentti
+├── index.css # Tailwind CSS ja yleiset tyylit
+├── main.tsx # Sovelluksen käynnistyspiste
+└── types.ts # TypeScript-tyypit
