@@ -44,19 +44,21 @@ Sovelluksessa käyttäjä voi:
 
 Projektin lähdekoodi sijaitsee `src`-kansiossa.
 
+```text
 src/
-├── components/ # Uudelleenkäytettävät käyttöliittymäkomponentit
-│ ├── Footer.tsx
-│ ├── Header.tsx
-│ ├── Modal.tsx
-│ ├── ProductCard.tsx
-│ └── ProductList.tsx
-├── store/ # Zustand-tilanhallinta
-│ └── useCartStore.ts
-├── views/ # Sovelluksen päänäkymät
-│ ├── CartView.tsx
-│ └── HomeView.tsx
-├── App.tsx # Sovelluksen reititys ja pääkomponentti
-├── index.css # Tailwind CSS ja yleiset tyylit
-├── main.tsx # Sovelluksen käynnistyspiste
-└── types.ts # TypeScript-tyypit
+├── components/        # Uudelleenkäytettävät käyttöliittymäkomponentit
+│   ├── Footer.tsx
+│   ├── Header.tsx
+│   ├── Modal.tsx
+│   ├── ProductCard.tsx
+│   └── ProductList.tsx
+├── store/             # Zustand-tilanhallinta
+│   └── useCartStore.ts
+├── views/             # Sovelluksen päänäkymät
+│   ├── CartView.tsx
+│   └── HomeView.tsx
+├── App.tsx            # Sovelluksen reititys ja pääkomponentti
+├── index.css          # Tailwind CSS ja yleiset tyylit
+├── main.tsx           # Sovelluksen käynnistyspiste
+└── types.ts           # TypeScript-tyypit
+```
