@@ -42,7 +42,7 @@ const CartView = () => {
                 {item.price.toFixed(2)} €
               </p>
               <button
-                onClick={() => removeFromCart(item.id)}
+                onClick={() => removeFromCart(index)}
                 className="text-gray-400 hover:text-red-500 p-2 rounded-lg hover:bg-red-50 transition-colors"
                 title="Poista tuote"
               >
