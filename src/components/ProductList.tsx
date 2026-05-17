@@ -3,6 +3,7 @@ import type { Product } from "../types";
 import ProductCard from "./ProductCard";
 import { Modal } from "./Modal";
 import { useCartStore } from "../store/useCartStore";
+import { useProductStore } from "../store/useProductStore";
 
 function getCategoryLabel(category: string) {
   switch (category.toLowerCase()) {
@@ -21,30 +22,18 @@ function getCategoryLabel(category: string) {
 
 export function ProductList() {
   // --- TILAT ---
-  const [products, setProducts] = useState<Product[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const products = useProductStore((state) => state.products);
+  const isLoading = useProductStore((state) => state.isLoading);
+  const error = useProductStore((state) => state.error);
+  const fetchProducts = useProductStore((state) => state.fetchProducts);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>("all");
   const addToCart = useCartStore((state) => state.addToCart);
 
   // --- LOGIIKKA: Datan haku ---
   useEffect(() => {
-    fetch("https://techburger-api.onrender.com/api/products")
-      .then((response) => {
-        if (!response.ok)
-          throw new Error("Menun haku epäonnistui - tarkista yhteys");
-        return response.json();
-      })
-      .then((data) => {
-        setProducts(data);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        setError(err instanceof Error ? err.message : "Jotain meni pieleen");
-        setIsLoading(false);
-      });
-  }, []);
+    fetchProducts();
+  }, [fetchProducts]);
 
   // --- SUODATUSLOGIIKKA ---
   // Lasketaan näytettävät tuotteet valitun kategorian perusteella
